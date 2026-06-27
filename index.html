@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -73,76 +73,23 @@
     <input type="text" id="message" placeholder="Type a message..." />
     <button id="send">Send</button>
 
-    <!--<script> 1st.........
-        const ws = new WebSocket("ws://localhost:8080");
-        const chat = document.getElementById("chat");
-        const messageInput = document.getElementById("message");
-        const sendButton = document.getElementById("send");
-
-        ws.onopen = () => {
-            chat.innerHTML += "<p><em>Connected to server</em></p>";
-        };
-
-        ws.onmessage = (event) => {
-            chat.innerHTML += `<p>${event.data}</p>`;
-            chat.scrollTop = chat.scrollHeight;
-        };
-
-        sendButton.onclick = () => {
-            const message = messageInput.value;
-            if (message) {
-                ws.send(message);
-                messageInput.value = "";
-            }
-        };
-
-        messageInput.addEventListener("keypress", (e) => {
-            if (e.key === "Enter") sendButton.click();
-        });
-    </script>-->
-    <!--<script> 2nd........
-        const username = prompt("Enter your name:");
-        const ws = new WebSocket("ws://localhost:8080");
-        const chat = document.getElementById("chat");
-        const messageInput = document.getElementById("message");
-        const sendButton = document.getElementById("send");
-
-        ws.onopen = () => {
-            ws.send(JSON.stringify({ type: "join", user: username }));
-            chat.innerHTML += `<p><em>${username} connected</em></p>`;
-        };
-
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.type === "message") {
-                chat.innerHTML += `<p><strong>${data.user}:</strong> ${data.text}</p>`;
-            } else if (data.type === "join") {
-                chat.innerHTML += `<p><em>${data.user} joined the chat</em></p>`;
-            } else if (data.type === "typing") {
-                document.getElementById("typing").innerText = `${data.user} is typing...`;
-                setTimeout(() => { document.getElementById("typing").innerText = ""; }, 2000);
-            }
-            chat.scrollTop = chat.scrollHeight;
-        };
-
-        sendButton.onclick = () => {
-            const message = messageInput.value;
-            if (message) {
-                ws.send(JSON.stringify({ type: "message", user: username, text: message }));
-                messageInput.value = "";
-            }
-        };
-
-        messageInput.addEventListener("input", () => {
-            ws.send(JSON.stringify({ type: "typing", user: username }));
-        });
-    </script>
-
-    <div id="typing" style="color:gray; font-style:italic;"></div>-->
-
     <script>
-        const username = prompt("Enter your name:");
-       const ws = new WebSocket("wss://secret-chat-application-we1g.onrender.com");
+     let username = "";
+// Keep asking until user enters a valid name
+while (!username || username.trim() === "") {   
+  username = prompt("Enter your name:"); 
+  if (username === null) {
+    alert("You are not allow to enter this CHAT ROOM. Please Refreash the page");
+    // If Cancel is pressed, stop everything
+    throw new Error("User cancelled name entry");
+  }
+  else if(!username || username.trim() === "")
+  {    
+    alert("You must enter a name to join the chat.");
+  }
+
+}
+const ws = new WebSocket("ws://localhost:8080");
         const chat = document.getElementById("chat");
         const messageInput = document.getElementById("message");
         const sendButton = document.getElementById("send");
@@ -177,9 +124,202 @@
         messageInput.addEventListener("input", () => {
             ws.send(JSON.stringify({ type: "typing", user: username }));
         });
+    
     </script>
     <div id="typing" style="color:gray; font-style:italic;"></div>
 
 
 </body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Secret Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+  font-family: Consolas, monospace;
+  background: #0d0d0d; /* deep black background */
+  color: #00ff00;      /* neon green text */
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  text-align: center;
+  margin: 15px 0;
+  color: #00ff00;
+  text-shadow: 0 0 10px #00ff00;
+}
+
+#chat {
+  border: 1px solid #00ff00;
+  height: 300px;
+  overflow-y: scroll;
+  padding: 10px;
+  background: #000;
+  border-radius: 8px;
+  max-width: 800px;
+  margin: auto;
+  box-shadow: 0 0 15px #00ff00;
+}
+
+.input-area {
+  display: flex;
+  justify-content: space-between;
+  max-width: 800px;
+  margin: 10px auto;
+  gap: 5px;
+}
+
+#message {
+  flex: 1;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #00ff00;
+  background: #111;
+  color: #00ff00;
+  font-size: 16px;
+}
+
+#send {
+  padding: 8px 20px;
+  border-radius: 5px;
+  background: #00ff00;
+  color: black;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-shadow: 0 0 5px #000;
+}
+
+#send:hover {
+  background: #33ff33;
+}
+
+p {
+  margin: 5px 0;
+}
+
+strong {
+  color: #33ff33;
+}
+
+#typing {
+  color: #00ff00;
+  font-style: italic;
+  max-width: 800px;
+  margin: auto;
+  padding: 5px;
+  text-shadow: 0 0 5px #00ff00;
+}
+
+@media (max-width: 600px) {
+  #chat {
+    height: 250px;
+    font-size: 14px;
+  }
+
+  #message {
+    font-size: 14px;
+    padding: 6px;
+  }
+
+  #send {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+}
+  </style>
+</head>
+<body>
+  <h2>SECRET Chat</h2>
+  <div id="chat"></div>
+
+  <div class="input-area">
+    <input type="text" id="message" placeholder="Type a message..." />
+    <button id="send">Send</button>
+  </div>
+
+  <div id="typing"></div>
+
+  <script>
+    let username = "";
+    while (!username || username.trim() === "") {
+      username = prompt("Enter your name:");
+      if (username === null) {
+        alert("You are not allowed to enter this CHAT ROOM. Please refresh the page.");
+        throw new Error("User cancelled name entry");
+      } else if (!username || username.trim() === "") {
+        alert("You must enter a name to join the chat.");
+      }
+    }
+
+    const ws = new WebSocket("wss://secret-chat-application-we1g.onrender.com");
+    const chat = document.getElementById("chat");
+    const messageInput = document.getElementById("message");
+    const sendButton = document.getElementById("send");
+
+    // Track if this user is a moderator (first one)
+    let isModerator = false;
+
+    ws.onopen = () => {
+      // Send join request instead of direct join
+      ws.send(JSON.stringify({ type: "join_request", user: username }));
+    };
+
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+
+      if (data.type === "approved") {
+        chat.innerHTML += `<p><em>${username} joined the chat</em></p>`;
+      } else if (data.type === "rejected") {
+        alert("Your request was rejected by the moderator.");
+        throw new Error("Access denied");
+      } else if (data.type === "message") {
+        chat.innerHTML += `<p><strong>${data.user}</strong> [${data.time}]: ${data.text}</p>`;
+      } else if (data.type === "join") {
+        chat.innerHTML += `<p><em>${data.user} joined the chat</em></p>`;
+      } else if (data.type === "join_request") {
+        // Moderator sees approval popup
+        if (isModerator) {
+          const approve = confirm(`${data.user} wants to join. Approve?`);
+          if (approve) {
+            ws.send(JSON.stringify({ type: "approve", user: data.user }));
+          } else {
+            ws.send(JSON.stringify({ type: "reject", user: data.user }));
+          }
+        }
+      } else if (data.type === "typing") {
+        document.getElementById("typing").innerText = `${data.user} is typing...`;
+        setTimeout(() => { document.getElementById("typing").innerText = ""; }, 2000);
+      } else if (data.type === "moderator") {
+        // Server tells first user they are moderator
+        isModerator = true;
+        chat.innerHTML += `<p><em>You are the moderator</em></p>`;
+      }
+
+      chat.scrollTop = chat.scrollHeight;
+    };
+
+    sendButton.onclick = () => {
+      const message = messageInput.value;
+      if (message) {
+        ws.send(JSON.stringify({ type: "message", user: username, text: message }));
+        messageInput.value = "";
+      }
+    };
+
+    messageInput.addEventListener("input", () => {
+      ws.send(JSON.stringify({ type: "typing", user: username }));
+    });
+  </script>
+</body>
 </html>
+
