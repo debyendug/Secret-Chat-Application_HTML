@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Secret Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #chat {
+            border: 1px solid #ccc;
+            height: 300px;
+            overflow-y: scroll;
+            padding: 10px;
+        }
+
+        #message {
+            width: 80%;
+        }
+
+        #send {
+            width: 18%;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+        }
+
+        #chat {
+            border: 1px solid #ccc;
+            height: 300px;
+            overflow-y: scroll;
+            padding: 10px;
+            background: #fff;
+            border-radius: 8px;
+        }
+
+        #message {
+            width: 75%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        #send {
+            width: 20%;
+            padding: 8px;
+            border-radius: 5px;
+            background: #25D366;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+            #send:hover {
+                background: #128C7E;
+            }
+
+        p {
+            margin: 5px 0;
+        }
+
+        strong {
+            color: #075E54;
+        }
+    </style>
+</head>
+<body>
+    <h2>WebSocket Chat</h2>
+    <div id="chat"></div>
+    <input type="text" id="message" placeholder="Type a message..." />
+    <button id="send">Send</button>
+
+    <!--<script> 1st.........
+        const ws = new WebSocket("ws://localhost:8080");
+        const chat = document.getElementById("chat");
+        const messageInput = document.getElementById("message");
+        const sendButton = document.getElementById("send");
+
+        ws.onopen = () => {
+            chat.innerHTML += "<p><em>Connected to server</em></p>";
+        };
+
+        ws.onmessage = (event) => {
+            chat.innerHTML += `<p>${event.data}</p>`;
+            chat.scrollTop = chat.scrollHeight;
+        };
+
+        sendButton.onclick = () => {
+            const message = messageInput.value;
+            if (message) {
+                ws.send(message);
+                messageInput.value = "";
+            }
+        };
+
+        messageInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") sendButton.click();
+        });
+    </script>-->
+    <!--<script> 2nd........
+        const username = prompt("Enter your name:");
+        const ws = new WebSocket("ws://localhost:8080");
+        const chat = document.getElementById("chat");
+        const messageInput = document.getElementById("message");
+        const sendButton = document.getElementById("send");
+
+        ws.onopen = () => {
+            ws.send(JSON.stringify({ type: "join", user: username }));
+            chat.innerHTML += `<p><em>${username} connected</em></p>`;
+        };
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.type === "message") {
+                chat.innerHTML += `<p><strong>${data.user}:</strong> ${data.text}</p>`;
+            } else if (data.type === "join") {
+                chat.innerHTML += `<p><em>${data.user} joined the chat</em></p>`;
+            } else if (data.type === "typing") {
+                document.getElementById("typing").innerText = `${data.user} is typing...`;
+                setTimeout(() => { document.getElementById("typing").innerText = ""; }, 2000);
+            }
+            chat.scrollTop = chat.scrollHeight;
+        };
+
+        sendButton.onclick = () => {
+            const message = messageInput.value;
+            if (message) {
+                ws.send(JSON.stringify({ type: "message", user: username, text: message }));
+                messageInput.value = "";
+            }
+        };
+
+        messageInput.addEventListener("input", () => {
+            ws.send(JSON.stringify({ type: "typing", user: username }));
+        });
+    </script>
+
+    <div id="typing" style="color:gray; font-style:italic;"></div>-->
+
+    <script>
+        const username = prompt("Enter your name:");
+       const ws = new WebSocket("wss://secret-chat-application-we1g.onrender.com");
+        const chat = document.getElementById("chat");
+        const messageInput = document.getElementById("message");
+        const sendButton = document.getElementById("send");
+
+        ws.onopen = () => {
+            ws.send(JSON.stringify({ type: "join", user: username }));
+            chat.innerHTML += `<p><em>${username} connected</em></p>`;
+        };
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+
+            if (data.type === "message") {
+                chat.innerHTML += `<p><strong>${data.user}</strong> [${data.time}]: ${data.text}</p>`;
+            } else if (data.type === "join") {
+                chat.innerHTML += `<p><em>${data.user} joined the chat</em></p>`;
+            } else if (data.type === "typing") {
+                document.getElementById("typing").innerText = `${data.user} is typing...`;
+                setTimeout(() => { document.getElementById("typing").innerText = ""; }, 2000);
+            }
+            chat.scrollTop = chat.scrollHeight;
+        };
+
+        sendButton.onclick = () => {
+            const message = messageInput.value;
+            if (message) {
+                ws.send(JSON.stringify({ type: "message", user: username, text: message }));
+                messageInput.value = "";
+            }
+        };
+
+        messageInput.addEventListener("input", () => {
+            ws.send(JSON.stringify({ type: "typing", user: username }));
+        });
+    </script>
+    <div id="typing" style="color:gray; font-style:italic;"></div>
+
+
+</body>
+</html>
