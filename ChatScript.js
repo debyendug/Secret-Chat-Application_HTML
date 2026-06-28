@@ -59,7 +59,7 @@
     
 // for name changes using button
 
-    const ws = new WebSocket("ws://localhost:8080");
+     const ws = new WebSocket("wss://secret-chat-application-we1g.onrender.com");
     const chat = document.getElementById("chat");
     const messageInput = document.getElementById("message");
     const sendButton = document.getElementById("send");
