@@ -149,106 +149,13 @@ const ws = new WebSocket("wss://secret-chat-application-we1g.onrender.com");
   <meta charset="UTF-8">
   <title>Secret Chat</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    body {
-  font-family: Consolas, monospace;
-  background: #0d0d0d; /* deep black background */
-  color: #00ff00;      /* neon green text */
-  margin: 0;
-  padding: 0;
-}
-
-h2 {
-  text-align: center;
-  margin: 15px 0;
-  color: #00ff00;
-  text-shadow: 0 0 10px #00ff00;
-}
-
-#chat {
-  border: 1px solid #00ff00;
-  height: 300px;
-  overflow-y: scroll;
-  padding: 10px;
-  background: #000;
-  border-radius: 8px;
-  max-width: 800px;
-  margin: auto;
-  box-shadow: 0 0 15px #00ff00;
-}
-
-.input-area {
-  display: flex;
-  justify-content: space-between;
-  max-width: 800px;
-  margin: 10px auto;
-  gap: 5px;
-}
-
-#message {
-  flex: 1;
-  padding: 8px;
-  border-radius: 5px;
-  border: 1px solid #00ff00;
-  background: #111;
-  color: #00ff00;
-  font-size: 16px;
-}
-
-#send {
-  padding: 8px 20px;
-  border-radius: 5px;
-  background: #00ff00;
-  color: black;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  text-shadow: 0 0 5px #000;
-}
-
-#send:hover {
-  background: #33ff33;
-}
-
-p {
-  margin: 5px 0;
-}
-
-strong {
-  color: #33ff33;
-}
-
-#typing {
-  color: #00ff00;
-  font-style: italic;
-  max-width: 800px;
-  margin: auto;
-  padding: 5px;
-  text-shadow: 0 0 5px #00ff00;
-}
-
-@media (max-width: 600px) {
-  #chat {
-    height: 250px;
-    font-size: 14px;
-  }
-
-  #message {
-    font-size: 14px;
-    padding: 6px;
-  }
-
-  #send {
-    font-size: 14px;
-    padding: 6px 12px;
-  }
-}
-  </style>
+   <link rel="stylesheet" href="style.css"> 
+    
+  <button id="theme-toggle">🌙 Dark Mode</button>
 </head>
 <body>
-  <h2>SECRET Chat</h2>
+  <h2>SECRET CHAT</h2>
+  <div id="user-info"></div>
   <div id="chat"></div>
 
   <div class="input-area">
@@ -270,12 +177,13 @@ strong {
       }
     }
 
-    const ws = new WebSocket("wss://secret-chat-application-we1g.onrender.com");
+    // ✅ Use your hosted backend URL here
+   const ws = new WebSocket("wss://secret-chat-application-we1g.onrender.com");
     const chat = document.getElementById("chat");
     const messageInput = document.getElementById("message");
     const sendButton = document.getElementById("send");
-
-    // Track if this user is a moderator (first one)
+    document.getElementById("user-info").innerText = `User: ${username}`;
+    // Track if this user is moderator (first one)
     let isModerator = false;
 
     ws.onopen = () => {
@@ -327,6 +235,18 @@ strong {
 
     messageInput.addEventListener("input", () => {
       ws.send(JSON.stringify({ type: "typing", user: username }));
+    });
+
+    // ✅ Theme toggle logic
+    const toggleBtn = document.getElementById("theme-toggle");
+    toggleBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark-theme");
+      document.body.classList.toggle("light-theme");
+      if (document.body.classList.contains("dark-theme")) {
+        toggleBtn.textContent = "☀️ Light Mode";
+      } else {
+        toggleBtn.textContent = "🌙 Dark Mode";
+      }
     });
   </script>
 </body>
