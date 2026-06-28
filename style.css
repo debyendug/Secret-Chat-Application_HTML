@@ -1,0 +1,137 @@
+/* Default theme (light) */
+body.light-theme {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f9f9f9;
+  color: #333;
+}
+
+header {
+  background: linear-gradient(90deg, #4caf50, #2e7d32);
+  color: white;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+header h2 {
+  margin: 0;
+}
+
+#user-info {
+  font-weight: bold;
+}
+
+/* Chat window */
+#chat {
+  max-width: 800px;
+  margin: 20px auto;
+  height: 400px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+/* Messages */
+.message {
+  margin: 8px 0;
+  padding: 8px 12px;
+  border-radius: 15px;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+.message.own {
+  background: #dcf8c6;
+  margin-left: auto;
+}
+
+.message.other {
+  background: #f1f0f0;
+  margin-right: auto;
+}
+
+/* Input area */
+.input-area {
+  max-width: 800px;
+  margin: 10px auto;
+  display: flex;
+  gap: 5px;
+}
+
+#message {
+  flex: 1;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+}
+
+#send {
+  padding: 10px 20px;
+  border-radius: 20px;
+  background: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#send:hover {
+  background: #45a049;
+}
+
+#typing {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  margin-top: 5px;
+}
+
+/* Dark hacker theme */
+body.dark-theme {
+  background: #0d0d0d;
+  color: #00ff00;
+}
+
+body.dark-theme header {
+  background: #111;
+  color: #00ff00;
+  box-shadow: 0 0 10px #00ff00;
+}
+
+body.dark-theme #chat {
+  background: #000;
+  border: 1px solid #00ff00;
+  box-shadow: inset 0 0 15px #00ff00;
+}
+
+body.dark-theme .message.own {
+  background: rgba(0,255,0,0.2);
+}
+
+body.dark-theme .message.other {
+  background: rgba(0,255,0,0.1);
+}
+
+body.dark-theme #message {
+  background: #111;
+  color: #00ff00;
+  border: 1px solid #00ff00;
+}
+
+body.dark-theme #send {
+  background: #00ff00;
+  color: black;
+}
+
+body.dark-theme #send:hover {
+  background: #33ff33;
+}
+
+body.dark-theme #typing {
+  color: #00ff00;
+  text-shadow: 0 0 5px #00ff00;
+}
