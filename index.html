@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Secret Chat</title>
     <style>
-           body {
+        body {
             font-family: Arial, sans-serif;
         }
 
@@ -65,19 +65,10 @@
         strong {
             color: #075E54;
         }
-#user-info {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  color: #00ff00; /* neon green for hacker theme */
-  font-weight: bold;
-  text-shadow: 0 0 5px #00ff00;
-}
     </style>
 </head>
 <body>
-    <h2>SECRET CHAT</h2>
- <div id="user-info"></div>
+    <h2>WebSocket Chat</h2>
     <div id="chat"></div>
     <input type="text" id="message" placeholder="Type a message..." />
     <button id="send">Send</button>
@@ -98,11 +89,11 @@ while (!username || username.trim() === "") {
   }
 
 }
-const ws = new WebSocket("wss://secret-chat-application-we1g.onrender.com");
+const ws = new WebSocket("ws://localhost:8080");
         const chat = document.getElementById("chat");
         const messageInput = document.getElementById("message");
         const sendButton = document.getElementById("send");
-        document.getElementById("user-info").innerText = `User: ${username}`;
+
         ws.onopen = () => {
             ws.send(JSON.stringify({ type: "join", user: username }));
             chat.innerHTML += `<p><em>${username} connected</em></p>`;
@@ -141,19 +132,19 @@ const ws = new WebSocket("wss://secret-chat-application-we1g.onrender.com");
 </body>
 </html> -->
 
-
-
-<!DOCTYPE html>
+<!-- //5th .......... -->
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Secret Chat</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" href="style.css"> 
+<title>Secret Chat</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css"> 
     
-  <button id="theme-toggle">🌙 Dark Mode</button>
-</head>
-<body>
+      <label for="bg-upload" class="upload-label">📷 Upload Background</label>
+ <input type="file" id="bg-upload" accept="image/*">
+</head> -->
+<!-- <body>
   <h2>SECRET CHAT</h2>
   <div id="user-info"></div>
   <div id="chat"></div>
@@ -164,8 +155,48 @@ const ws = new WebSocket("wss://secret-chat-application-we1g.onrender.com");
   </div>
 
   <div id="typing"></div>
+  
+ <div class="app-container"> -->
+  <!-- Sidebar (top-left profile) -->
+  <!-- <aside class="sidebar">
+    <h3>Profile</h3>
+    <div class="profile-pic">
+      <img id="profile-img" src="default-avatar.png" alt="Profile">
+      <input type="file" id="profile-upload" accept="image/*">
+    </div>
+    <div class="profile-info">
+      <label>Name:</label>
+      <input type="text" id="edit-name" placeholder="Enter your name">
+      
+      <label>Phone:</label>
+      <input type="text" id="edit-phone" placeholder="Enter phone number">
+    </div> -->
+    <!-- User info placed under profile -->
+    <!-- <div id="user-info"></div>
+  </aside> -->
 
-  <script>
+  <!-- Chat Area -->
+  <!-- <main class="chat-area"> -->
+    <!-- Centered heading -->
+    <!-- <header>
+      <h2>SECRET Chat</h2>
+    </header> -->
+
+    <!-- Chat messages -->
+    <!-- <div id="chat"></div> -->
+
+    <!-- Typing indicator -->
+    <!-- <div id="typing"></div> -->
+
+    <!-- Input area centered below heading -->
+    <!-- <div class="input-area">
+      <input type="text" id="message" placeholder="Type a message..." />
+      <button id="send">Send</button>
+    </div>
+  </main>
+</div> -->
+
+  <!-- <script>
     let username = "";
     while (!username || username.trim() === "") {
       username = prompt("Enter your name:");
@@ -175,23 +206,51 @@ const ws = new WebSocket("wss://secret-chat-application-we1g.onrender.com");
       } else if (!username || username.trim() === "") {
         alert("You must enter a name to join the chat.");
       }
-    }
+    } -->
 
-    // ✅ Use your hosted backend URL here
-   const ws = new WebSocket("wss://secret-chat-application-we1g.onrender.com");
+    <!-- // Use your hosted backend URL here
+    const ws = new WebSocket("ws://localhost:8080");
+    // For hosting:
+    // const ws = new WebSocket("wss://secret-chat-application-we1g.onrender.com");
+
     const chat = document.getElementById("chat");
     const messageInput = document.getElementById("message");
     const sendButton = document.getElementById("send");
     document.getElementById("user-info").innerText = `User: ${username}`;
+    const profileUpload = document.getElementById("profile-upload"); // Profile image upload
+    const profileImg = document.getElementById("profile-img"); // Profile image upload
     // Track if this user is moderator (first one)
-    let isModerator = false;
+    let isModerator = false; -->
 
-    ws.onopen = () => {
+    <!-- ws.onopen = () => {
       // Send join request instead of direct join
       ws.send(JSON.stringify({ type: "join_request", user: username }));
+    }; -->
+     <!-- Profile image upload
+    profileUpload.addEventListener("change", (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      profileImg.src = e.target.result;
     };
+    reader.readAsDataURL(file);
+  }
+});
+// Typing indicator with avatar
+ws.onmessage = (event) => {
+  const data = JSON.parse(event.data); -->
 
-    ws.onmessage = (event) => {
+  <!-- if (data.type === "typing") {
+    document.getElementById("typing").innerHTML = ` -->
+      <!-- <img src="default-avatar.png" style="width:30px;height:30px;border-radius:50%;vertical-align:middle;"> -->
+      <!-- <span>${data.user} is typing...</span> -->
+    <!-- `;
+    setTimeout(() => { document.getElementById("typing").innerHTML = ""; }, 2000);
+  }
+}; -->
+
+    <!-- ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
 
       if (data.type === "approved") {
@@ -235,9 +294,9 @@ const ws = new WebSocket("wss://secret-chat-application-we1g.onrender.com");
 
     messageInput.addEventListener("input", () => {
       ws.send(JSON.stringify({ type: "typing", user: username }));
-    });
+    }); -->
 
-    // ✅ Theme toggle logic
+    <!-- //  Theme toggle logic
     const toggleBtn = document.getElementById("theme-toggle");
     toggleBtn.addEventListener("click", () => {
       document.body.classList.toggle("dark-theme");
@@ -248,7 +307,121 @@ const ws = new WebSocket("wss://secret-chat-application-we1g.onrender.com");
         toggleBtn.textContent = "🌙 Dark Mode";
       }
     });
+     // Background image upload
+    const bgUpload = document.getElementById("bg-upload");
+    bgUpload.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          document.body.style.backgroundImage = `url('${e.target.result}')`;
+          document.body.style.backgroundSize = "cover";
+          document.body.style.backgroundPosition = "center";
+        };
+        reader.readAsDataURL(file);
+      }
+    }); -->
+
+    <!-- const bgUpload = document.getElementById("bg-upload");
+bgUpload.addEventListener("change", (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      document.body.style.backgroundImage = `url('${e.target.result}')`;
+      document.body.style.backgroundSize = "cover";
+      document.body.style.backgroundPosition = "center";
+      document.body.style.backgroundAttachment = "fixed"; // ✅ keeps background fixed
+    };
+    reader.readAsDataURL(file);
+  }
+}); -->
+
+<!-- const bgUpload = document.getElementById("bg-upload");
+bgUpload.addEventListener("change", (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      document.body.style.backgroundImage = `url('${e.target.result}')`;
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
   </script>
 </body>
+</html> -->
+
+<!-- //6 th............... -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Anonymous Chat Room</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar (top-left profile) -->
+    <aside class="sidebar">
+     <aside class="sidebar">
+  <h3>Profile</h3>
+  <div class="profile-pic">
+    <img id="profile-img" src="default-avatar.png" alt="Profile">
+    <input type="file" id="profile-upload" accept="image/*">
+     <button id="remove-profile" style="display:none;">❌ Remove Profile Image</button>
+  </div>
+  <div class="profile-info">    
+    <label>Name:</label>
+  <input type="text" id="edit-name" placeholder="Want to Change you name">
+  <button id="change-name">Change Name</button>
+
+    <label>Phone:</label>
+    <input type="text" id="edit-phone" placeholder="Enter phone number">
+  </div>
+
+  <!-- Upload background button placed here -->
+  <div class="background-upload">
+    <label for="bg-upload" class="upload-label">📷 Upload Background</label>
+    <input type="file" id="bg-upload" accept="image/*">
+     <button id="remove-bg" style="display:none;">❌ Remove Background</button>
+  </div>
+
+  <!-- User info placed under profile -->
+  <div id="user-info"></div>
+</aside>
+    </aside>
+
+    <!-- Chat Area -->
+    <main class="chat-area">
+      <!-- Centered heading -->
+      <header class="description-box">
+        <h2>Anonymous Chat Room</h2>
+        <p><h5>Description: Chat with others instantly without creating a permanent chat history. Your conversations are not stored, helping protect your privacy and minimize storage usage.</h5></p>
+          <b><p><h6> <strong>Disclaimer : </strong>Chats, phone numbers, and IP addresses are not stored. Users are solely responsible for their interactions, and the service and its owners are not liable for any consequences arising from the use of this platform.</h6></p></b>
+      </header>
+
+        <!-- Chat messages -->
+        <div id="chat"></div>
+
+        <!-- Typing indicator -->
+        <div id="typing"></div>
+
+       <!-- Input area centered below heading -->
+        <div class="input-area">
+         <input type="text" id="message" placeholder="Type a message..." />
+         <button id="send">Send</button>
+         <div id="typing"></div> <!-- moved inside input-area -->
+        </div>
+    </main>
+  </div>
+
+  <script src="ChatScript.js"></script>
+
+</body>
 </html>
+
 
