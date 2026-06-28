@@ -64,6 +64,9 @@
     const messageInput = document.getElementById("message");
     const sendButton = document.getElementById("send");
     document.getElementById("user-info").innerText = `User Name: ${username}`;
+    document.addEventListener("contextmenu", (event) => {
+     event.preventDefault();
+     });
     const profileUpload = document.getElementById("profile-upload");
     const profileImg = document.getElementById("profile-img");
     const removeProfileBtn = document.getElementById("remove-profile");
