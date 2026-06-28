@@ -9,6 +9,7 @@ body {
   position: relative;
   height: 100vh;
   display: flex; */
+  user-select: none; 
     font-family: "Segoe UI", Arial, sans-serif;
   margin: 0;
   padding: 0;
@@ -243,6 +244,11 @@ header h2 {
 
 .upload-label:hover {
   background: #1976d2;
+}
+@media print {
+  body {
+    display: none; /* hides everything when printing */
+  }
 }
 
 /* Responsive */
